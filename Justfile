@@ -21,7 +21,6 @@ serve-preview:
     cargo tool miniserve . --index "index.html" -p 8080
 
 init:
-    cargo binstall taplo-cli
     cargo tool --install
 
 lint: lint-check
@@ -36,11 +35,11 @@ format: format-fix
 
 format-check:
     cargo fmt --all -- --check
-    taplo format --check
+    cargo tool taplo format --check
 
 format-fix:
     cargo fmt --all
-    taplo format
+    cargo tool taplo format
 
 fix:
     cargo just format-fix

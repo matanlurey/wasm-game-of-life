@@ -24,6 +24,7 @@ cargo-llvm-cov = { version = "0.6.16", locked = true }
 cargo-watch = { version = "8.5.3" }
 just = { version = "1.40.0" }
 miniserve = { version = "0.16.0" }
+taplo-cli = { version = "0.10.0", bins = ["taplo"] }
 wasm-pack = { version = "0.13.1" }
 
 [features]
