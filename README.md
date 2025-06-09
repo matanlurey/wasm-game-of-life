@@ -5,6 +5,8 @@ An example of using [Rust][] and [WebAssembly][] together.
 [rust]: https://www.rust-lang.org/
 [webassembly]: https://webassembly.org/
 
+[![Test](https://github.com/matanlurey/wasm-game-of-life/actions/workflows/test.yml/badge.svg)](https://github.com/matanlurey/wasm-game-of-life/actions/workflows/test.yml)
+
 Based on [Rust 🦀 and WebAssembly][book].
 
 [book]: https://rustwasm.github.io/docs/book/introduction.html

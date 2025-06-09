@@ -39,9 +39,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
 
-    - name: Install Dependencies
-      run: cargo just init
-
     - name: Check
       run: cargo just check
 
