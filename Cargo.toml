@@ -1,0 +1,48 @@
+[package]
+name = "wasm-game-of-life"
+edition = "2024"
+license = "MIT"
+
+[lib]
+crate-type = [
+  # Produce a C-compatible dynamic library (i.e. `.wasm` that JS can invoke).
+  "cdylib",
+
+  # Produce a Rust library that can be used by other Rust code.
+  "rlib",
+]
+
+[lints.clippy]
+pedantic = "deny"
+
+[workspace]
+members = ["tools/cargo-bin"]
+
+[workspace.metadata.bin]
+cargo-nextest = { version = "0.9.98", locked = true }
+cargo-llvm-cov = { version = "0.6.16", locked = true }
+cargo-watch = { version = "8.5.3" }
+just = { version = "1.40.0" }
+miniserve = { version = "0.16.0" }
+wasm-pack = { version = "0.13.1" }
+
+[features]
+default = ["console_error_panic_hook"]
+
+[dependencies]
+# The `console_error_panic_hook` crate provides better debugging of panics by
+# logging them with `console.error`. This is great for development, but requires
+# all the `std::fmt` and `std::panicking` infrastructure, so isn't great for
+# code size when deploying.
+console_error_panic_hook = { version = "0.1.7", optional = true }
+wasm-bindgen = "0.2.100"
+
+[dev-dependencies]
+wasm-bindgen-test = { version = "0.3.50" }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies]
+cargo-run-bin = { version = "1.7.4", features = ["cli"] }
+
+[profile.release]
+# Tell `rustc` to optimize for small code size.
+opt-level = "s"
