@@ -34,6 +34,7 @@ jobs:
         path: |
           ~/.cargo/registry
           ~/.cargo/git
+          .bin
           target
         key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
         restore-keys: |
