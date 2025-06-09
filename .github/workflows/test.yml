@@ -39,13 +39,16 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
 
+    - name: Install Dependencies
+      run: cargo just init
+
     - name: Check
       run: cargo just check
 
     - name: Test
       run: cargo just test-all
 
-    - name: Generat Coverage
+    - name: Generate Coverage
       if: matrix.os == 'ubuntu-latest'
       run: cargo just coverage-gen
 
