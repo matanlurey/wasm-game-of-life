@@ -39,6 +39,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
 
+    - name: Install Tools
+      uses: cargo-bins/cargo-binstall@v1.12.7
+
     - name: Check
       run: cargo just check
 
