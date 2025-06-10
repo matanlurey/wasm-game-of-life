@@ -70,7 +70,7 @@ test-wasm *ARGS:
 test-all:
     cargo just test --all-features
     cargo just test-doc --all-features
-    cargo just test-wasm --chrome --headless
+    cargo just test-wasm --node
     
 coverage *ARGS:
     cargo tool cargo-llvm-cov --open

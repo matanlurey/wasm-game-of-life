@@ -2,54 +2,118 @@
 
 <head>
   <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+
+    #game-of-life-canvas {
+      font-size: 3vw;
+      max-width: 100vw;
+      max-height: 80vh;
+      overflow: auto;
+      white-space: pre;
+      word-break: break-all;
+    }
+
+    #fps {
+      white-space: pre;
+      font-family: monospace;
+    }
+  </style>
 </head>
 
 <body>
-  <!-- Note the usage of `type=module` here as this is an ES6 module -->
+  <canvas id="game-of-life-canvas"></canvas>
+  <p>
+    <button onclick="location.reload()">Restart</button>
+  </p>
+  <div id="fps">fps</div>
   <script type="module">
-    // Use ES module import syntax to import functionality from the module
-    // that we have compiled.
-    //
-    // Note that the `default` import is an initialization function which
-    // will "boot" the module and make it ready to use. Currently browsers
-    // don't support natively imported WebAssembly as an ES module, but
-    // eventually the manual initialization won't be required!
-    import init, { greet } from './pkg/wasm_game_of_life.js';
+    import init, { GameBuilder } from './pkg/wasm_game_of_life.js';
 
-    async function run() {
-      // First up we need to actually load the Wasm file, so we use the
-      // default export to inform it where the Wasm file is located on the
-      // server, and then we wait on the returned promise to wait for the
-      // Wasm to be loaded.
-      //
-      // It may look like this: `await init('./pkg/without_a_bundler_bg.wasm');`,
-      // but there is also a handy default inside `init` function, which uses
-      // `import.meta` to locate the Wasm file relatively to js file.
-      //
-      // Note that instead of a string you can also pass in any of the
-      // following things:
-      //
-      // * `WebAssembly.Module`
-      //
-      // * `ArrayBuffer`
-      //
-      // * `Response`
-      //
-      // * `Promise` which returns any of the above, e.g. `fetch("./path/to/wasm")`
-      //
-      // This gives you complete control over how the module is loaded
-      // and compiled.
-      //
-      // Also note that the promise, when resolved, yields the Wasm module's
-      // exports which is the same as importing the `*_bg` module in other
-      // modes
-      await init();
+    class Fps {
+      constructor(element) {
+        this.element = element;
+        this.frames = [];
+        this.lastFrameTimestamp = performance.now();
+      }
 
-      // And afterwards we can use all the functionality defined in wasm.
-      greet();
+      render() {
+        const now = performance.now();
+        const delta = now - this.lastFrameTimeStamp;
+        this.lastFrameTimeStamp = now;
+        const fps = 1 / delta * 1000;
+
+        // Save only the latest 100 timings.
+        this.frames.push(fps);
+        if (this.frames.length > 100) {
+          this.frames.shift();
+        }
+
+        // Find the max, min, and mean of our 100 latest timings.
+        let min = Infinity;
+        let max = -Infinity;
+        let sum = 0;
+        for (let i = 0; i < this.frames.length; i++) {
+          sum += this.frames[i];
+          min = Math.min(this.frames[i], min);
+          max = Math.max(this.frames[i], max);
+        }
+        let mean = sum / this.frames.length;
+
+        // Render the statistics.
+        this.element.textContent = `
+Frames per second:
+
+         latest = ${Math.round(fps)}
+avg of last 100 = ${Math.round(mean)}
+min of last 100 = ${Math.round(min)}
+max of last 100 = ${Math.round(max)}
+        `.trim();
+      }
     }
 
-    run();
+    const main = () => {
+      const builder = GameBuilder.new();
+      const fillRng = () => Math.random() < 0.5;
+
+      builder.setUniverse(48, 24, fillRng);
+      builder.setRenderer(document.getElementById("game-of-life-canvas"));
+
+      const game = builder.build();
+      const fps = new Fps(document.getElementById("fps"));
+
+      const loop = () => {
+        fps.render();
+        game.tick();
+        requestAnimationFrame(loop);
+      };
+      requestAnimationFrame(loop);
+    };
+
+    (async () => {
+      await init();
+      main();
+    })();
   </script>
 </body>
 
