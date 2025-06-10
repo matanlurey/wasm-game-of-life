@@ -50,6 +50,7 @@ jobs:
         run: |
           mkdir -p target/www
           cp index.html target/www/
+          cp favicon.ico target/www/
           cp -r pkg target/www/
 
       - name: Upload artifact
