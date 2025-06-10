@@ -10,9 +10,8 @@ An example of using [Rust][] and [WebAssembly][] together.
 
 ## Overview
 
-An implementation of [Conway's Game of Life][] written in Rust, and deployed
-and built to [GitHub Pages] using
-WebAssembly.
+An implementation of [Conway's Game of Life][] written in Rust, and deployed to
+[GitHub Pages][] using WebAssembly.
 
 <img src="https://github.com/user-attachments/assets/3d7e5537-beff-48e9-a95b-f1be542e2ee9" width="300" />
 
