@@ -40,15 +40,22 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
-      - name: Build docs
-        run: cargo just doc-gen
+      - name: Build wasm app
+        run: |
+          cargo just build-wasm
         env:
           RUSTDOCFLAGS: "-D warnings"
+      
+      - name: Prepare output folder
+        run: |
+          mkdir -p target/www
+          cp index.html target/www/
+          cp -r pkg target/www/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: target/doc
+          path: target/www
 
   deploy:
     runs-on: ubuntu-latest
