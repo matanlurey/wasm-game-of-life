@@ -14,9 +14,8 @@ An implementation of [Conway's Game of Life][] written in Rust, and deployed
 and built to <https://matanlurey.github.io/wasm-game-of-life> using
 WebAssembly.
 
-[![Preview](https://github.com/user-attachments/assets/3d7e5537-beff-48e9-a95b-f1be542e2ee9)][preview]
+<img src="https://github.com/user-attachments/assets/3d7e5537-beff-48e9-a95b-f1be542e2ee9" width="300" />
 
-[preview]: https://matanlurey.github.io/wasm-game-of-life
 [game of life]: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 
 The resulting code, which is not highly optimized, [is ~23kb][dl], or [Brotli][]
