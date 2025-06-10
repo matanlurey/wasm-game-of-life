@@ -16,7 +16,7 @@ WebAssembly.
 
 <img src="https://github.com/user-attachments/assets/3d7e5537-beff-48e9-a95b-f1be542e2ee9" width="300" />
 
-[game of life]: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+[conway's game of life]: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 
 The resulting code, which is not highly optimized, [is ~23kb][dl], or [Brotli][]
 compressed down to ~9kb.
